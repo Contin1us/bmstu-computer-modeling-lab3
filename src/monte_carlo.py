@@ -14,114 +14,158 @@ N = 100000
 # Продолжительность эксперимента
 t = 5
 
-success_count = 0
-failure_count = 0
+if __name__ == "__main__":
 
-# Проведение испытаний
-for i in range(N):
+    success_count = 0
+    failure_count = 0
 
-# Генерация времени отказа первого датчика
-    failure_time_1 = np.random.exponential(
-        scale=1 / lambda_sensor
-    )
+    # Проведение испытаний
+    for i in range(N):
 
-    # Генерация времени отказа второго датчика
-    failure_time_2 = np.random.exponential(
-        scale=1 / lambda_sensor
-    )
+    # Генерация времени отказа первого датчика
+        failure_time_1 = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
 
-    if failure_time_1 > t or failure_time_2 > t:
-        success_count += 1
-    else:
-        failure_count += 1
+        # Генерация времени отказа второго датчика
+        failure_time_2 = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
 
-print("Результаты моделирования датчиков:")
-print(f"Исправных датчиков: {success_count}")
-print(f"Отказавших датчиков: {failure_count}")
+        if failure_time_1 > t or failure_time_2 > t:
+            success_count += 1
+        else:
+            failure_count += 1
 
-# Оценка надёжности методом Монте-Карло
-reliability_estimate = success_count / N
+    print("Результаты моделирования датчиков:")
+    print(f"Исправных датчиков: {success_count}")
+    print(f"Отказавших датчиков: {failure_count}")
 
-print(f"Оценка надёжности: {reliability_estimate:.6f}")
+    # Оценка надёжности методом Монте-Карло
+    reliability_estimate = success_count / N
 
-
-# Эксперимент с резервированными вычислителями
-
-success_computer = 0
-failure_computer = 0
-
-for i in range(N):
-
-    # Время до отказа первого вычислителя
-    failure_time_1 = np.random.exponential(
-        scale=1 / lambda_computer
-    )
-
-    # Время до отказа второго вычислителя
-    failure_time_2 = np.random.exponential(
-        scale=1 / lambda_computer
-    )
-
-    # Проверка работоспособности пары
-    if failure_time_1 > t or failure_time_2 > t:
-        success_computer += 1
-    else:
-        failure_computer += 1
-
-# Расчёт надёжности пары вычислителей
-reliability_computer = success_computer / N
-
-print("\nРезультаты моделирования вычислителей:")
-print(f"Исправных подсистем: {success_computer}")
-print(f"Отказавших подсистем: {failure_computer}")
-print(f"Оценка надёжности: {reliability_computer:.6f}")
+    print(f"Оценка надёжности: {reliability_estimate:.6f}")
 
 
-# Моделирование всей системы
+    # Эксперимент с резервированными вычислителями
 
-success_system = 0
-failure_system = 0
+    success_computer = 0
+    failure_computer = 0
 
-for i in range(N):
+    for i in range(N):
 
-    # Время до отказа двух датчиков
-    sensor_1 = np.random.exponential(
-        scale=1 / lambda_sensor
-    )
+        # Время до отказа первого вычислителя
+        failure_time_1 = np.random.exponential(
+            scale=1 / lambda_computer
+        )
 
-    sensor_2 = np.random.exponential(
-        scale=1 / lambda_sensor
-    )
+        # Время до отказа второго вычислителя
+        failure_time_2 = np.random.exponential(
+            scale=1 / lambda_computer
+        )
 
-    # Время до отказа двух вычислителей
-    computer_1 = np.random.exponential(
-        scale=1 / lambda_computer
-    )
+        # Проверка работоспособности пары
+        if failure_time_1 > t or failure_time_2 > t:
+            success_computer += 1
+        else:
+            failure_computer += 1
 
-    computer_2 = np.random.exponential(
-        scale=1 / lambda_computer
-    )
+    # Расчёт надёжности пары вычислителей
+    reliability_computer = success_computer / N
 
-    # Время до отказа исполнительного механизма
-    actuator = np.random.exponential(
-        scale=1 / lambda_actuator
-    )
-
-    # Проверка работоспособности всей системы
-    if (sensor_1 > t or sensor_2 > t) and \
-       (computer_1 > t or computer_2 > t) and \
-       actuator > t:
-
-        success_system += 1
-
-    else:
-        failure_system += 1
+    print("\nРезультаты моделирования вычислителей:")
+    print(f"Исправных подсистем: {success_computer}")
+    print(f"Отказавших подсистем: {failure_computer}")
+    print(f"Оценка надёжности: {reliability_computer:.6f}")
 
 
-# Расчёт надёжности всей системы
-reliability_system = success_system / N
+    # Моделирование всей системы
 
-print("\nРезультаты моделирования всей системы:")
-print(f"Работоспособных систем: {success_system}")
-print(f"Отказавших систем: {failure_system}")
-print(f"Оценка надёжности: {reliability_system:.6f}")
+    success_system = 0
+    failure_system = 0
+
+    for i in range(N):
+
+        # Время до отказа двух датчиков
+        sensor_1 = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
+
+        sensor_2 = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
+
+        # Время до отказа двух вычислителей
+        computer_1 = np.random.exponential(
+            scale=1 / lambda_computer
+        )
+
+        computer_2 = np.random.exponential(
+            scale=1 / lambda_computer
+        )
+
+        # Время до отказа исполнительного механизма
+        actuator = np.random.exponential(
+            scale=1 / lambda_actuator
+        )
+
+        # Проверка работоспособности всей системы
+        if (sensor_1 > t or sensor_2 > t) and \
+        (computer_1 > t or computer_2 > t) and \
+        actuator > t:
+
+            success_system += 1
+
+        else:
+            failure_system += 1
+
+
+    # Расчёт надёжности всей системы
+    reliability_system = success_system / N
+
+    print("\nРезультаты моделирования всей системы:")
+    print(f"Работоспособных систем: {success_system}")
+    print(f"Отказавших систем: {failure_system}")
+    print(f"Оценка надёжности: {reliability_system:.6f}")
+
+
+
+def simulate_system(N, t):
+    success_system = 0
+    failure_system = 0
+
+    for i in range(N):
+
+        # Генерация времени отказа двух датчиков
+        sensor_1 = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
+        sensor_2 = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
+
+        # Генерация времени отказа двух вычислителей
+        computer_1 = np.random.exponential(
+            scale=1 / lambda_computer
+        )
+        computer_2 = np.random.exponential(
+            scale=1 / lambda_computer
+        )
+
+        # Генерация времени отказа исполнительного механизма
+        actuator = np.random.exponential(
+            scale=1 / lambda_actuator
+        )
+
+        # Проверка работоспособности системы
+        if (sensor_1 > t or sensor_2 > t) and \
+           (computer_1 > t or computer_2 > t) and \
+           actuator > t:
+
+            success_system += 1
+        else:
+            failure_system += 1
+
+    reliability = success_system / N
+
+    return reliability, success_system, failure_system

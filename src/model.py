@@ -36,19 +36,6 @@ print(f"Надёжность вычислителя за {t} часов: {reliab
 print(f"Надёжность исполнительного механизма за {t} часов: {reliability_actuator:.6f}")
 
 
-def calculate_system_reliability(sensor, computer, actuator):
-    reliability = sensor * computer * actuator
-    return reliability
-
-
-reliability_system = calculate_system_reliability(
-    reliability_sensor,
-    reliability_computer,
-    reliability_actuator
-)
-
-
-print(f"Надёжность системы без резервирования за {t} часов: {reliability_system:.6f}")
 # Надёжность резервированных подсистем
 
 
@@ -62,13 +49,22 @@ reliability_computer_reserve = calculate_redundant_reliability(reliability_compu
 
 print(f"Надёжность пары датчиков: {reliability_sensor_reserve:.6f}")
 print(f"Надёжность пары вычислителей: {reliability_computer_reserve:.6f}")
-# Надёжность всей системы с резервированием
 
 
 def calculate_system_reliability(sensor, computer, actuator):
     reliability = sensor * computer * actuator
     return reliability
 
+
+reliability_system = calculate_system_reliability(
+    reliability_sensor,
+    reliability_computer,
+    reliability_actuator
+)
+
+
+print(f"Надёжность системы без резервирования за {t} часов: {reliability_system:.6f}")
+# Расчёт надёжности системы с резервированием
 
 reliability_system_reserve = calculate_system_reliability(
     reliability_sensor_reserve,
