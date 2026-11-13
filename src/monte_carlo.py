@@ -169,3 +169,38 @@ def simulate_system(N, t):
     reliability = success_system / N
 
     return reliability, success_system, failure_system
+
+
+def simulate_system_without_reserve(N, t):
+
+    success_system = 0
+    failure_system = 0
+
+    for i in range(N):
+
+        # Генерация времени отказа датчика
+        sensor = np.random.exponential(
+            scale=1 / lambda_sensor
+        )
+
+        # Генерация времени отказа вычислителя
+        computer = np.random.exponential(
+            scale=1 / lambda_computer
+        )
+
+        # Генерация времени отказа исполнительного механизма
+        actuator = np.random.exponential(
+            scale=1 / lambda_actuator
+        )
+
+        # Проверка работоспособности системы
+        if sensor > t and computer > t and actuator > t:
+
+            success_system += 1
+
+        else:
+            failure_system += 1
+
+    reliability = success_system / N
+
+    return reliability, success_system, failure_system
